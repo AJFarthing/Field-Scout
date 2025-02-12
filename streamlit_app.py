@@ -34,20 +34,20 @@ with header:
     st.title('CropSense: A Smart Crop Advisor')
     st.text('This app was created to work as a gardening assistant.')
     st.text('With the crop recommendation system, all the guess work is taken out of gardening.')
-    st.text('Simply enter readings from your own garden below, and we will suggest the crop best suited to these conditions.')
+    st.text('Simply enter readings from your own garden in the sidebar, and we will suggest the crop best suited to these conditions.')
 
-st.header('User Input')
+st.sidebar.header('User Input Sidebar')
 
 # Function to collect user inputs
 
 def user_input_features():
-    Nitrogen = st.slider('Nitrogen Level', 0, 150, 75)
-    Phosphorus = st.slider('Phosphorus Level', 0, 150, 75)
-    Potassium = st.slider('Potassium Level', 0, 210, 105)
-    Temperature = st.slider('Temperature (°C)', 0.0, 50.0, 25.0)
-    Humidity = st.slider('Humidity (%)', 0, 100, 50)
-    PH = st.slider('Soil pH', 0.0, 14.0, 7.0)
-    Rainfall = st.slider('Rainfall (mm)', 0, 400, 200)
+    Nitrogen = st.sidebar.slider('Nitrogen Level', 0, 150, 75)
+    Phosphorus = st.sidebar.slider('Phosphorus Level', 0, 150, 75)
+    Potassium = st.sidebar.slider('Potassium Level', 0, 210, 105)
+    Temperature = st.sidebar.slider('Temperature (°C)', 0.0, 50.0, 25.0)
+    Humidity = st.sidebar.slider('Humidity (%)', 0, 100, 50)
+    PH = st.sidebar.slider('Soil pH', 0.0, 14.0, 7.0)
+    Rainfall = st.sidebar.slider('Rainfall (mm)', 0, 400, 200)
 
     data = {'Nitrogen': Nitrogen,
             'Phosphorus': Phosphorus,
