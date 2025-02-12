@@ -1,14 +1,34 @@
-
 import streamlit as st
 import pandas as pd
 import requests
 import lightgbm as lgb
 import pickle
+import os
 
 header = st.container()
 raw_url = "https://github.com/AJFarthing/field-scout/raw/main/lgb_model.pkl"
-response = requests.get(raw_url, stream=True)
+model_path = "lgb_model.pkl"
 
+# Check if the model file exists locally
+if not os.path.exists(model_path):
+    # Fetch the model from GitHub if it doesn't exist locally
+    response = requests.get(raw_url, stream=True)
+    if response.status_code == 200:
+        with open(model_path, "wb") as f:
+            f.write(response.content)
+    else:
+        st.error("Failed to fetch the pickle file from GitHub.")
+else:
+    st.text("Model file already exists locally.")
+
+# Load the model
+try:
+    with open(model_path, "rb") as f:
+        load_clf = pickle.load(f)
+except Exception as e:
+    st.error(f"Error loading model: {e}")
+
+header = st.container()
 
 with header:
     st.title('CropSense: A Smart Crop Advisor')
@@ -17,10 +37,9 @@ with header:
     st.text('Simply enter readings from your own garden into the User Input Sidebar')
     st.text('and we will suggest the crop best suited to these conditions')
 
-
 st.sidebar.header('User Input Sidebar')
 
-
+# Function to collect user inputs
 def user_input_features():
     Nitrogen = st.sidebar.number_input('Input your Nitrogen reading here (0-150)', value=0, min_value=0, max_value=150, step=1, format='%d')
     Phosphorus = st.sidebar.number_input('Input your Phosphorus reading here (0-150)', value=0, min_value=0, max_value=150, step=1, format='%d')
@@ -40,24 +59,17 @@ def user_input_features():
             }
     features = pd.DataFrame(data, index=[0])
     return features
+
+# Collecting input data from the user
 input_df = user_input_features()
 st.write(input_df)
 
-
-# Check if the request was successful
-if response.status_code == 200:
-    # Load the pickle file
-    with open("lgb_model.pkl", "wb") as f:
-        f.write(response.content)
-    # Load the pickled model
-    with open("lgb_model.pkl", "rb") as f:
-        load_clf = pickle.load(f)
-
-    # Predict using the loaded model
+# Predict using the loaded model
+try:
     prediction = load_clf.predict(input_df)[0]
 
     st.subheader('Prediction')
     st.write(f"Based on the inputs provided, the best crop for your parameters would be: <br><b style='font-size: 50px'>{prediction}</b>", unsafe_allow_html=True)
-else:
-    # Handle the case when the request fails
-    print("Failed to fetch the pickle file from GitHub.")
+
+except Exception as e:
+    st.error(f"Prediction failed: {e}")
