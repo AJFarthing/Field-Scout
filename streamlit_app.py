@@ -6,7 +6,7 @@ import lightgbm as lgb
 import pickle
 
 header = st.container()
-raw_url = "https://github.com/AJFarthing/cropsense/raw/main/lgb_model.pkl"
+raw_url = "https://github.com/AJFarthing/field-scout/raw/main/lgb_model.pkl"
 response = requests.get(raw_url, stream=True)
 
 
