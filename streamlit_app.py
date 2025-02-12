@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import requests
-import lightgbm as lgb
+# import lightgbm as lgb
 import pickle
 import os
 
