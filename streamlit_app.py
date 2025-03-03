@@ -31,7 +31,7 @@ except Exception as e:
 header = st.container()
 
 with header:
-    st.title('CropSense: A Smart Crop Advisor')
+    st.title('Field Scout: A Smart Crop Advisor')
     st.text('This app was created to work as a gardening assistant.')
     st.text('With the crop recommendation system, all the guess work is taken out of gardening.')
     st.text('Simply enter readings from your own garden in the sidebar, and we will suggest the crop best suited to these conditions.')
