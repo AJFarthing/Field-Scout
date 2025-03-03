@@ -18,8 +18,8 @@ if not os.path.exists(model_path):
             f.write(response.content)
     else:
         st.error("Failed to fetch the pickle file from GitHub.")
-else:
-    st.text("Model file already exists locally.")
+# else:
+#     st.text("Model file already exists locally.")
 
 # Load the model
 try:
